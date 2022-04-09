@@ -13,7 +13,11 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const post = req.body;
-    const newPost = new Posts(post);
+    const newPost = new Posts({
+      ...post,
+      creator: req.userId,
+      createdAt: new Date().toISOString(),
+    });
     newPost.save();
     res.status(201).json(newPost);
   } catch (err) {
@@ -60,16 +64,18 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!req.userId) return res.json({ msg: "Unauthenticated" });
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send("No post with that id");
     const post = await Posts.findById(id);
-    const updatedPost = await Posts.findByIdAndUpdate(
-      id,
-      {
-        likeCount: post.likeCount + 1,
-      },
-      { new: true }
-    );
+
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+    if (index === -1) {
+      post.likes.push(req.userId);
+    } else {
+      post.likes = post.likes.filter((id) => id !== String(req.userId));
+    }
+    const updatedPost = await Posts.findByIdAndUpdate(id, post, { new: true });
     res.json(updatedPost);
   } catch (err) {
     res.json({ success: false, msg: err.message });

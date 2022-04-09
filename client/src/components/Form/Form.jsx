@@ -7,12 +7,12 @@ import { createPost, updatePost } from "../../redux/actions/posts";
 
 function Form({ currentId, setCurrentId }) {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
     selectedFile: "",
   });
+  const user = JSON.parse(localStorage.getItem('profile'))
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
@@ -27,10 +27,10 @@ function Form({ currentId, setCurrentId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId) {
-      dispatch(updatePost(currentId, postData))
+      dispatch(updatePost(currentId, {...postData, name: user?.result?.name}))
       clear()
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({...postData, name: user?.result?.name}));
       clear()
     }
   };
@@ -41,13 +41,21 @@ function Form({ currentId, setCurrentId }) {
   const clear = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
       selectedFile: "",
     });
   };
+  if(!user?.result?.name){
+    return(
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please login to create your post and like other's post
+        </Typography>
+      </Paper>
+    )
+  }
   return (
     <Paper className={classes.paper}>
       <form
@@ -59,14 +67,6 @@ function Form({ currentId, setCurrentId }) {
         <Typography variant="h6">
           {currentId ? "Editting" : "Creating"} post
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={handleChangeValue}
-        />
         <TextField
           name="title"
           variant="outlined"
@@ -81,6 +81,8 @@ function Form({ currentId, setCurrentId }) {
           label="Message"
           fullWidth
           value={postData.message}
+          rows={4}
+          multiline
           onChange={handleChangeValue}
         />
         <TextField

@@ -13,6 +13,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
 //import router
 import postRoutes from "./routes/postRoute.js";
+import authRoutes from "./routes/userRoute.js";
 
 mongoose
   .connect(process.env.DB, { autoIndex: false })
@@ -20,6 +21,7 @@ mongoose
   .catch((err) => console.log(err.message));
 
 app.use("/api/v1/post", postRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log("server running on", process.env.PORT)
