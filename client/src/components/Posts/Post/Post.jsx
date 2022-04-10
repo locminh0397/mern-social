@@ -22,7 +22,6 @@ function Post({ post, setCurrentId }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
-  console.log(post, user)
   const Likes = () => {
     if (post.likes.length > 0) {
       return post.likes.find(
