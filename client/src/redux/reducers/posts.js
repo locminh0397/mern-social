@@ -24,10 +24,10 @@ export default function (state = {isLoading: true, posts: []}, action) {
         posts: action.payload.data
       };
     case DELETE:
-      return {...state, posts:state.filter((post) => post._id !== action.payload)};
+      return {...state, posts: state.posts.filter((post) => post._id !== action.payload)};
     case UPDATE:
     case LIKE:
-      return {...state, posts:state.map((post) =>
+      return {...state, posts: state.posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       )};
     case CREATE:
