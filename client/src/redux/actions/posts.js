@@ -9,6 +9,8 @@ import {
   START_LOADING,
   END_LOADING,
   FETCH_POST,
+  FETCH_BY_CREATOR,
+  COMMENT,
 } from "../constants/actionTypes";
 
 export const getPosts = (page) => async (dispatch) => {
@@ -27,6 +29,28 @@ export const getPost = (id) => async (dispatch) => {
     const { data } = await api.fetchPost(id);
     dispatch({ type: FETCH_POST, payload: data });
     dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getPostsByCreator = (name) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data: { data } } = await api.fetchPostsByCreator(name);
+
+    dispatch({ type: FETCH_BY_CREATOR, payload: { data } });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const commentPost = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await api.comment(value, id);
+
+    dispatch({ type: COMMENT, payload: data });
+
+    return data.comments;
   } catch (error) {
     console.log(error);
   }

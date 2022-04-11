@@ -11,34 +11,34 @@ export const getPosts = async (req, res) => {
       .sort({ _id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
-    res.status(200).json({
+    return res.status(200).json({
       data: posts,
       currentPage: Number(page),
       numberOfPage: Math.ceil(total / LIMIT),
     });
   } catch (err) {
-    res.status(404).json({ success: false, msg: err.message });
+    return res.status(404).json({ success: false, msg: err.message });
   }
 };
 export const getPost = async (req, res) => {
   const { id } = req.params;
   try {
     const post = await Posts.findById(id);
-    res.status(200).json(post);
+    return res.status(200).json(post);
   } catch (err) {
-    res.status(404).json({ success: false, msg: err.message });
+    return res.status(404).json({ success: false, msg: err.message });
   }
 };
 export const getPostsBySearch = async (req, res) => {
   const { searchQuery, tags } = req.query;
-  try {
+  try { 
     const title = new RegExp(searchQuery, "i");
-    const posts = await Posts.find({
-      $or: [{ title }, { tags: { $in: tags.split(",") } }],
-    });
-    res.json({ data: posts });
+
+    const posts = await Posts.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+
+    return res.json({ data: posts });
   } catch (err) {
-    res.status(404).json({ success: false, msg: err.message });
+    return res.status(404).json({ success: false, msg: err.message });
   }
 };
 
@@ -51,9 +51,9 @@ export const createPost = async (req, res) => {
       createdAt: new Date().toISOString(),
     });
     newPost.save();
-    res.status(201).json(newPost);
+    return res.status(201).json(newPost);
   } catch (err) {
-    res.status(409).json({ success: false, msg: err.message });
+    return res.status(409).json({ success: false, msg: err.message });
   }
 };
 
@@ -73,9 +73,9 @@ export const updatePost = async (req, res) => {
       _id: id,
     };
     await Posts.findByIdAndUpdate(id, updatedPost, { new: true });
-    res.status(200).json(updatedPost);
+    return res.status(200).json(updatedPost);
   } catch (err) {
-    res.json({ success: false, msg: err.message });
+    return res.json({ success: false, msg: err.message });
   }
 };
 
@@ -88,9 +88,9 @@ export const deletePost = async (req, res) => {
 
     await Posts.findByIdAndRemove(id);
 
-    res.json({ message: "Post deleted successfully." });
+    return res.json({ message: "Post deleted successfully." });
   } catch (err) {
-    res.json({ success: false, msg: err.message });
+    return res.json({ success: false, msg: err.message });
   }
 };
 export const likePost = async (req, res) => {
@@ -108,8 +108,35 @@ export const likePost = async (req, res) => {
       post.likes = post.likes.filter((id) => id !== String(req.userId));
     }
     const updatedPost = await Posts.findByIdAndUpdate(id, post, { new: true });
-    res.json(updatedPost);
+    return res.json(updatedPost);
   } catch (err) {
-    res.json({ success: false, msg: err.message });
+    return res.json({ success: false, msg: err.message });
   }
 };
+
+export const commentPost = async (req,res) => {
+  const { id } = req.params;
+  const { value } = req.body;
+  try {
+    const post = await Posts.findById(id);
+
+    post.comments.push(value);
+  
+    const updatedPost = await Posts.findByIdAndUpdate(id, post, { new: true });
+  
+    res.json(updatedPost);
+  } catch (err) {
+    return res.json({ success: false, msg: err.message });
+  }
+}
+export const getPostsByCreator = async (req, res) => {
+  const { name } = req.query;
+
+  try {
+      const posts = await Posts.find({ name });
+
+      res.json({ data: posts });
+  } catch (error) {    
+      res.status(404).json({ message: error.message });
+  }
+}

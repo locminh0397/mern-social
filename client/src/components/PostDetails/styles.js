@@ -28,18 +28,18 @@ export default makeStyles((theme) => ({
     },
   },
   recommendedPosts: {
-    display: 'flex',
+    display: 'flex!important',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
   },
   loadingPaper: {
-    display: 'flex!important',
-    justifyContent: 'center!important',
-    alignItems: 'center!important',
-    padding: '20px!important',
-    borderRadius: '15px!important',
-    height: '39vh!important',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+    borderRadius: '15px',
+    height: '39vh',
   },
   commentsOuterContainer: {
     display: 'flex',

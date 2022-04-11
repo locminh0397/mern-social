@@ -23,6 +23,10 @@ mongoose
 app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/auth", authRoutes);
 
+app.get("/", (req,res) => {
+  res.send('API running...')
+})
+
 app.listen(process.env.PORT, () =>
   console.log("server running on", process.env.PORT)
 );
