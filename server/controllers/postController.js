@@ -11,13 +11,20 @@ export const getPosts = async (req, res) => {
       .sort({ _id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
-    res
-      .status(200)
-      .json({
-        data: posts,
-        currentPage: Number(page),
-        numberOfPage: Math.ceil(total / LIMIT),
-      });
+    res.status(200).json({
+      data: posts,
+      currentPage: Number(page),
+      numberOfPage: Math.ceil(total / LIMIT),
+    });
+  } catch (err) {
+    res.status(404).json({ success: false, msg: err.message });
+  }
+};
+export const getPost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await Posts.findById(id);
+    res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ success: false, msg: err.message });
   }

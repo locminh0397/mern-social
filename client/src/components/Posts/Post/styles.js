@@ -22,15 +22,15 @@ export default makeStyles({
     position: 'relative',
   },
   overlay: {
-    position: 'absolute!important',
-    top: '10px',
+    position: 'absolute',
+    top: '20px',
     left: '20px',
     color: 'white',
   },
   overlay2: {
-    position: 'absolute!important',
-    top: '0px',
-    right: '0px',
+    position: 'absolute',
+    top: '20px',
+    right: '20px',
     color: 'white',
   },
   grid: {
@@ -48,5 +48,9 @@ export default makeStyles({
     padding: '0 16px 8px 16px',
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  cardAction: {
+    display: 'block!important',
+    textAlign: 'initial',
   },
 });

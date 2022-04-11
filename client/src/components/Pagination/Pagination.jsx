@@ -16,13 +16,13 @@ function PaginationPage({page}) {
 
   return (
     <Pagination
-      className={{ ul: classes.ul }}
+      className={classes.ul }
       count={numberOfPage}
       page={Number(page) || 1}
       variant="outlined"
       color="primary"
       renderItem={(item) => (
-        <PaginationItem {...item} component={Link} to={`/post?page=${1}`} />
+        <PaginationItem {...item} component={Link} to={`/posts?page=${1}`} />
       )}
     ></Pagination>
   );
