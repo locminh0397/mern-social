@@ -1,13 +1,13 @@
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
+import React from "react";
 import App from "./App";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./redux/reducers";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
-const root = createRoot(document.getElementById("root"));
 
 const theme = createTheme({
   palette: {
@@ -29,10 +29,10 @@ const theme = createTheme({
   },
 });
 
-root.render(
+ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       <App />
     </Provider>
-  </ThemeProvider>
+  </ThemeProvider>, document.getElementById('root')
 );

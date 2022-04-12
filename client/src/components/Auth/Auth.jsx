@@ -6,10 +6,10 @@ import {
   Grid,
   Typography,
   Container,
-} from "@mui/material";
+} from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "react-google-login";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import useStyles from "./styles";
 import Input from "./Input";
 import Icon from "./icon";

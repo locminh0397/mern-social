@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import memories from "../../img/memories.png";

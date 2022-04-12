@@ -6,7 +6,7 @@ import {
   TextField,
   Button,
   AppBar,
-} from "@mui/material";
+} from "@material-ui/core";
 import React, { useState } from "react";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
@@ -60,9 +60,9 @@ function Home() {
       <Container maxWidth="xl">
         <Grid
           container
-          justify="space-between"
+          justifyContent="space-between"
           alignItems="stretch"
-          spacing="3"
+          spacing={3}
           className={classes.gridContainer}
           onKeyPress={handleKeyPress}
         >
